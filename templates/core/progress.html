@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Progress</title>
+    <style>
+        .btn-add {
+            background: #0078ff;
+            color: black;
+        }
+
+        .btn-add:hover {
+            background: #005fcc;
+        }
+
+    
+    </style>
+</head>
+<body style="margin:0; font-family:Arial, sans-serif;">
+
+<!-- Sidebar -->
+<div style="position:fixed; left:0; top:0; width:220px; height:100vh; background:#1e1e1e; padding-top:20px; color:white;">
+    <h2 style="text-align:center; margin-bottom:30px;">Healthtbite</h2>
+
+    <a href="/home" style="display:block; padding:15px 20px; color:white; text-decoration:none;">Home</a>
+    <a href="/progress" style="display:block; padding:15px 20px; color:white; text-decoration:none;">Progress</a>
+    <a href="/goals" style="display:block; padding:15px 20px; color:white; text-decoration:none;">Goals</a>
+    <a href="/myinfo" style="display:block; padding:15px 20px; color:white; text-decoration:none;">My Info</a>
+
+    <a href="/logout" style="display:block; padding:15px 20px; color:#ff4d4d; text-decoration:none; margin-top:40px;">Logout</a>
+</div>
+
+<!-- Main Content -->
+<div style="margin-left:240px; padding:30px;">
+
+    <h1>Progress for TODAY</h1>
+
+    <!-- Summary Box -->
+    <!-- Connect to database later -->
+    <div style="background:#fff8d6; border:2px solid #f2d44c; padding:20px; border-radius:8px; width:350px; margin-bottom:20px;">
+        <p><strong>Calories consumed:</strong> 2,664</p>
+        <p><strong>Daily goal:</strong> 2,500</p>
+        <p><strong>Calories over goal:</strong> 164</p>
+        <p><strong>Highest Calorie Consumption at:</strong> Dinner</p>
+    </div>
+
+    <!-- Notes -->
+    <div style="margin-bottom:20px;">
+        <label><strong>John's Notes</strong></label><br>
+        <textarea rows="4" style="width:350px; padding:10px; border-radius:6px; border:1px solid #ccc;"></textarea>
+    </div>
+
+    <!-- Add Meal Button -->
+    <button style="padding:12px 20px; background:#0078ff; color:white; border:none; border-radius:6px; margin-bottom:20px;">
+        Add Meal
+    </button>
+
+    <!-- Meal List -->
+    <!-- Connect to database later -->
+    <div style="width:450px;">
+
+        <div style="background:white; padding:15px; border-radius:6px; margin-bottom:10px; border:1px solid #ddd;">
+            <strong>Cereal</strong><br>
+            Quantity: 1<br>
+            Calories: 400<br>
+            Meal: Breakfast
+        </div>
+
+        <div style="background:white; padding:15px; border-radius:6px; margin-bottom:10px; border:1px solid #ddd;">
+            <strong>Hamburger</strong><br>
+            Quantity: 1<br>
+            Calories: 250<br>
+            Meal: Lunch
+        </div>
+
+        <div style="background:white; padding:15px; border-radius:6px; margin-bottom:10px; border:1px solid #ddd;">
+            <strong>Turkey</strong><br>
+            Quantity: 1<br>
+            Calories: 1294<br>
+            Meal: Dinner
+        </div>
+
+        <div style="background:white; padding:15px; border-radius:6px; margin-bottom:10px; border:1px solid #ddd;">
+            <strong>Chips</strong><br>
+            Quantity: 4<br>
+            Calories: 600<br>
+            Meal: Snack
+        </div>
+
+        <div style="background:white; padding:15px; border-radius:6px; margin-bottom:10px; border:1px solid #ddd;">
+            <strong>CandyBar</strong><br>
+            Quantity: 1<br>
+            Calories: 120<br>
+            Meal: Snack
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

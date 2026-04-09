@@ -1,6 +1,151 @@
-{% extends "core/base.html" %}
-{% block title %}Register — HealthBite{% endblock %}
-{% block content %}
-<h1>Register</h1>
-<p>Route: <code>/register/</code></p>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Healthbite Form</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #ffffff;
+        }
+
+
+        /* Main container */
+        .container {
+            width: 90%;
+            max-width: 500px;
+            margin: 30px auto;
+        }
+
+        /* Yellow info box */
+        .info-box {
+            background: #fff8d6;
+            border: 2px solid #f2d44c;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .info-box h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        /* Input groups */
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .input-group input {
+            width: 95%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        /* Password field outside the box */
+        .password-group {
+            margin-top: 20px;
+        }
+
+        /* Buttons */
+        .button-row {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 25px;
+        }
+
+        .btn {
+            width: 48%;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .btn-back {
+            background: #0078ff;
+            color: white;
+        }
+
+        .btn-submit {
+            background: #f2d44c;
+            color: black;
+        }
+
+        .btn-back:hover {
+            background: #005fcc;
+        }
+
+        .btn-submit:hover {
+            background: #e5c23c;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="info-box">
+            <h3>Please input your information</h3>
+
+            <div class="input-group">
+                <label>Name</label>
+                <input type="text" placeholder="Enter your name">
+            </div>
+
+            <div class="input-group">
+                <label>Email</label>
+                <input type="email" placeholder="Enter your email">
+            </div>
+
+            <div class="input-group">
+                <label>Age</label>
+                <input type="number" placeholder="Enter your age">
+            </div>
+
+            <div class="input-group">
+                <label>Height</label>
+                <input type="text" placeholder="Enter your height">
+            </div>
+
+            <div class="input-group">
+                <label>Weight</label>
+                <input type="text" placeholder="Enter your weight">
+            </div>
+
+            <div class="input-group">
+                <label>Activity Level</label>
+                <input type="text" placeholder="Enter your activity level">
+            </div>
+        </div>
+
+        <div class="password-group">
+            <label>Password</label>
+            <input type="password" placeholder="Enter your password">
+        </div>
+
+        <div class="button-row">
+            <button class="btn btn-back">Back</button>
+            <button class="btn btn-submit">Submit</button>
+        </div>
+
+    </div>
+
+</body>
+</html>

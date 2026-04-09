@@ -1,6 +1,25 @@
-{% extends "core/base.html" %}
-{% block title %}Home — HealthBite{% endblock %}
-{% block content %}
-<h1>Homepage</h1>
-<p>Route: <code>/homepage/</code></p>
-{% endblock %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home</title>
+</head>
+<body style="margin:0; font-family:Arial, sans-serif;">
+
+<div style="position:fixed; left:0; top:0; width:220px; height:100vh; background:#1e1e1e; padding-top:20px; color:white;">
+    <h2 style="text-align:center; margin-bottom:30px;">Healthbite</h2>
+
+    <a href="/home" style="display:block; padding:15px 20px; color:white; text-decoration:none;">Home</a>
+    <a href="/progress" style="display:block; padding:15px 20px; color:white; text-decoration:none;">Progress</a>
+    <a href="/goals" style="display:block; padding:15px 20px; color:white; text-decoration:none;">Goals</a>
+    <a href="/myinfo" style="display:block; padding:15px 20px; color:white; text-decoration:none;">My Info</a>
+
+    <a href="/logout" style="display:block; padding:15px 20px; color:#ff4d4d; text-decoration:none; margin-top:40px;">Logout</a>
+</div>
+
+<div style="margin-left:240px; padding:30px;">
+    <h1>Welcome to Healthbite</h1>
+    <p>This is your dashboard.</p>
+</div>
+
+</body>
+</html>
