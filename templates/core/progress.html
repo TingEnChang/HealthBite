@@ -1,0 +1,46 @@
+{% extends "core/base.html" %}
+{% block title %}Progress — HealthBite{% endblock %}
+{% block content %}
+<h1 class="page-header" style="display:block; margin-bottom:1rem;">{{ profile.full_name|default:"User" }}&rsquo;s Progress:</h1>
+
+<div class="progress-chart-box">
+  <div class="chart-wrap">
+    <svg viewBox="0 0 300 120" width="100%" height="120" role="img" aria-label="Calories per day, last 7 days">
+      {% if chart_svg_line %}
+        <line x1="20" y1="{{ chart_goal_y }}"
+              x2="280" y2="{{ chart_goal_y }}"
+              stroke="#c00" stroke-width="1" stroke-dasharray="3 2" stroke-opacity="0.7" />
+        <text x="175" y="{{ chart_goal_y }}" dy="-4" font-size="8" fill="#c00">{{ profile.full_name|default:"User" }}&rsquo;s Goal</text>
+        <polyline fill="none" stroke="#c00" stroke-width="2" points="{{ chart_svg_line }}" />
+        <circle r="4" fill="#c00" cx="{{ chart_end_cx }}" cy="{{ chart_end_cy }}" />
+      {% else %}
+        <text x="20" y="60" font-size="10" fill="#666">No data yet — log meals to see a chart.</text>
+      {% endif %}
+    </svg>
+  </div>
+  <p style="font-size:0.85rem; color:#666; margin:0.5rem 0 0;">Red line: daily calories (7 days). Dashed: daily calorie goal.</p>
+  <ul style="list-style:none; padding:0; display:flex; flex-wrap:wrap; gap:0.5rem 1rem; font-size:0.8rem; margin:0.5rem 0 0;">
+    {% for c in chart %}
+      <li><strong>{{ c.label }}:</strong> {{ c.total|floatformat:0 }}</li>
+    {% endfor %}
+  </ul>
+</div>
+
+<div id="goals-section" class="goals-panel">
+  <h2>{{ profile.full_name|default:"User" }}&rsquo;s Goals:</h2>
+  <div class="goal-row">Average Calories per day: <strong>Goal: {{ goal_daily|floatformat:0 }}</strong> | <strong>Current: {{ current_daily_avg|floatformat:0 }}</strong></div>
+  <div class="goal-row">Average Calories per week: <strong>Goal: {{ goal_weekly|floatformat:0 }}</strong> | <strong>Current: {{ current_weekly|floatformat:0 }}</strong></div>
+  <div class="goal-row">Average Calories per month: <strong>Goal: {{ goal_monthly|floatformat:0 }}</strong> | <strong>Current: {{ current_monthly|floatformat:0 }}</strong></div>
+  <form method="post" action="{% url 'progress' %}">
+    {% csrf_token %}
+    <div class="goal-input-row">
+      <label for="id_daily_goal">Daily calorie goal (updates weekly/monthly targets):</label>
+      <input type="number" step="1" name="daily_calorie_goal" id="id_daily_goal" value="{{ goal_daily }}">
+    </div>
+    <div class="goal-actions">
+      <a class="btn-danger" href="#id_daily_goal" style="text-align:center; line-height:1.2;">Edit Goals</a>
+      <button type="submit" name="save_goals" value="1" class="btn-success">Save Goals</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

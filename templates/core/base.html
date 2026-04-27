@@ -1,19 +1,47 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% block title %}HealthBite{% endblock %}</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}HealthBite{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'core/css/healthbite.css' %}">
 </head>
 <body>
-    <nav>
-        <a href="{% url 'homepage' %}">Home</a>
-        <a href="{% url 'login' %}">Login</a>
-        <a href="{% url 'register' %}">Register</a>
-        <a href="{% url 'historyrecord' %}">History</a>
-    </nav>
-    <main>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar-logo">Healthbite logo here</div>
+      <nav class="sidebar-nav" aria-label="Main">
+        <a class="nav-link{% if nav_active == 'home' %} active{% endif %}" href="{% url 'home' %}">
+          <span class="star" aria-hidden="true">★</span> Home
+        </a>
+        <a class="nav-link{% if nav_active == 'progress' %} active{% endif %}" href="{% url 'progress' %}">
+          <span class="star" aria-hidden="true">★</span> Progress
+        </a>
+        <a class="nav-link{% if nav_active == 'goals' %} active{% endif %}" href="{% url 'goals' %}">
+          <span class="star" aria-hidden="true">★</span> Goals
+        </a>
+        <a class="nav-link{% if nav_active == 'my_info' %} active{% endif %}" href="{% url 'my_info' %}">
+          <span class="star" aria-hidden="true">★</span> My Info
+        </a>
+      </nav>
+      <div class="sidebar-logout">
+        <a href="{% url 'logout' %}">Logout</a>
+      </div>
+    </aside>
+    <div class="main-area">
+      <div class="main-topbar">Help info, copyright info, etc</div>
+      <div class="main-inner">
+        {% if messages %}
+          <ul class="messages">
+            {% for message in messages %}
+              <li>{{ message }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
         {% block content %}{% endblock %}
-    </main>
+      </div>
+    </div>
+  </div>
 </body>
 </html>

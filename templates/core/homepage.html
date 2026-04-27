@@ -1,8 +1,54 @@
 {% extends "core/base.html" %}
 {% block title %}Home — HealthBite{% endblock %}
 {% block content %}
-<h1>Homepage</h1>
-<p>Route: <code>/homepage/</code></p>
+<div class="page-header">
+  <h1>Progress for TODAY</h1>
+  <button type="button" class="link-button" title="Not implemented">Calendar</button>
+</div>
 
-<p>Today's Calories: {{ total_calories }}</p>
+<div class="summary-box">
+  <div class="summary-grid">
+    <div>
+      <label>Calories consumed:</label>
+      <div class="value">{{ total_calories|floatformat:0 }}</div>
+    </div>
+    <div>
+      <label>Daily goal:</label>
+      <div class="value">{{ daily_goal|floatformat:0 }}</div>
+    </div>
+    <div>
+      <label>Calories over goal:</label>
+      <div class="value">{{ calories_over_goal|floatformat:0 }}</div>
+    </div>
+    <div>
+      <label>Highest Calorie Consumption at:</label>
+      <div class="value">
+        {{ highest_meal_label }}{% if highest_meal_cals %} ({{ highest_meal_cals|floatformat:0 }} kcal){% endif %}
+      </div>
+    </div>
+  </div>
+  <form class="notes-field" method="post" action="{% url 'home' %}">
+    {% csrf_token %}
+    <input type="hidden" name="save_notes" value="1">
+    <label for="id_notes">{{ profile.full_name|default:"User" }}&rsquo;s Notes</label>
+    <textarea id="id_notes" name="notes" rows="3" placeholder="Notes…">{{ profile.notes }}</textarea>
+    <p><button type="submit" class="btn-primary">Save notes</button></p>
+  </form>
+</div>
+
+<div class="btn-block-center">
+  <a class="btn-primary" href="{% url 'add_meal' %}">Add Meal</a>
+</div>
+
+<h2 style="font-size:1.05rem; margin:1.25rem 0 0.5rem;">Today&rsquo;s log</h2>
+{% for item in meal_items %}
+  <div class="meal-row">
+    <span>{{ item.food.name }}</span>
+    <span>Quantity: {{ item.quantity|floatformat:"g" }}</span>
+    <span>Calories: {{ item.calculated_calories|floatformat:0 }}</span>
+    <span>{{ item.meal.get_meal_type_display }}</span>
+  </div>
+{% empty %}
+  <p>No meals logged today yet. Add a meal to get started.</p>
+{% endfor %}
 {% endblock %}

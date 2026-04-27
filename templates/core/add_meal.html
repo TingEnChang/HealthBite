@@ -1,29 +1,36 @@
 {% extends "core/base.html" %}
 {% block title %}Add Meal — HealthBite{% endblock %}
-
 {% block content %}
 <h1>Add Meal</h1>
-
-<form method="POST">
+{% if not foods %}
+  <p>No food items in the database yet. An administrator can add <code>FoodItem</code> records (e.g. via Django admin or shell).</p>
+{% else %}
+  <form class="form-yellow" method="post" action="{% url 'add_meal' %}" style="max-width:480px; border:2px solid #00a;">
     {% csrf_token %}
-
-    <label>Food:</label>
-    <select name="food" required>
+    <div class="form-row">
+      <label for="f">Food</label>
+      <select name="food" id="f" required>
         {% for food in foods %}
-            <option value="{{ food.id }}">
-                {{ food.name }} - {{ food.calories_per_serving }} calories / {{ food.serving_unit }}
-            </option>
+          <option value="{{ food.id }}">
+            {{ food.name }} — {{ food.calories_per_serving|floatformat:0 }} kcal / {{ food.serving_unit }}
+          </option>
         {% endfor %}
-    </select>
-
-    <br><br>
-
-    <label>Quantity:</label>
-    <input type="number" step="0.1" name="quantity" required>
-
-    <br><br>
-
-    <button type="submit">Add Meal</button>
-</form>
-
+      </select>
+    </div>
+    <div class="form-row">
+      <label for="m">Meal</label>
+      <select name="meal_type" id="m" required>
+        {% for value, label in meal_type_choices %}
+          <option value="{{ value }}">{{ label }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form-row">
+      <label for="q">Quantity</label>
+      <input type="number" step="0.1" name="quantity" id="q" min="0.1" required>
+    </div>
+    <p><button type="submit" class="btn-primary">Add Meal</button></p>
+  </form>
+{% endif %}
+<p><a href="{% url 'home' %}">← Home</a></p>
 {% endblock %}

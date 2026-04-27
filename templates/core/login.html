@@ -1,17 +1,37 @@
-{% extends "core/base.html" %}
-{% block title %}Login — HealthBite{% endblock %}
-
-{% block content %}
-<h1>Login</h1>
-
-<form method="POST">
-    {% csrf_token %}
-
-    <input type="email" name="email" placeholder="Email" required><br><br>
-
-    <input type="password" name="password" placeholder="Password" required><br><br>
-
-    <button type="submit">Login</button>
-</form>
-
-{% endblock %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Log in — HealthBite</title>
+  <link rel="stylesheet" href="{% static 'core/css/healthbite.css' %}">
+</head>
+<body class="auth-body">
+  <div class="auth-wrap">
+    <div class="auth-logo">Healthbite logo here</div>
+    <h1 class="auth-title">Log in</h1>
+    <p style="text-align:center; margin:0 0 1rem; color:#333;">Enter your email and password</p>
+    {% if login_error %}
+      <p class="auth-error" role="alert">{{ login_error }}</p>
+    {% endif %}
+    <form class="form-yellow login-form" method="post" action="{% url 'login' %}" novalidate>
+      {% csrf_token %}
+      <div class="form-row">
+        <label for="e">Email</label>
+        <input type="email" name="email" id="e" required autocomplete="email" placeholder="name@example.com" value="{{ email_prefill|default:'' }}">
+      </div>
+      <div class="form-row">
+        <label for="p">Password</label>
+        <input type="password" name="password" id="p" required autocomplete="current-password" placeholder="Password">
+      </div>
+      <p style="margin-top:1rem;">
+        <button type="submit" class="btn-submit-reg btn-login-wide">Log in</button>
+      </p>
+    </form>
+    <p style="text-align:center; margin-top:1.5rem;">
+      No account yet? <a href="{% url 'register' %}">Create an account</a>
+    </p>
+  </div>
+</body>
+</html>
