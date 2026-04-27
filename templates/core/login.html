@@ -1,6 +1,17 @@
 {% extends "core/base.html" %}
 {% block title %}Login — HealthBite{% endblock %}
+
 {% block content %}
 <h1>Login</h1>
-<p>Route: <code>/login/</code></p>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <input type="email" name="email" placeholder="Email" required><br><br>
+
+    <input type="password" name="password" placeholder="Password" required><br><br>
+
+    <button type="submit">Login</button>
+</form>
+
 {% endblock %}
