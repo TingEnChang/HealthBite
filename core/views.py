@@ -4,8 +4,12 @@ from .models import AppUser
 from .models import MealLog, MealLogItem, FoodItem
 from django.utils import timezone
 from django.db.models import Sum
+from .models import UserProfile
+
 
 from .models import AppUser, FoodItem, MealLog, MealLogItem
+
+from .models import UserProfile
 
 def homepage(request):
     user_id = request.session.get('user_id')
@@ -18,10 +22,20 @@ def homepage(request):
     total = MealLogItem.objects.filter(
         meal__user_id=user_id,
         meal__meal_time__date=today
-    ).aggregate(Sum('calculated_calories'))['calculated_calories__sum']
+    ).aggregate(Sum('calculated_calories'))['calculated_calories__sum'] or 0
+
+
+    profile = UserProfile.objects.filter(user_id=user_id).first()
+
+    recommended = None
+
+    if profile:
+
+        recommended = profile.weight_kg * 30
 
     return render(request, 'core/homepage.html', {
-        'total_calories': total or 0
+        'total_calories': total,
+        'recommended': recommended
     })
 
 
@@ -58,7 +72,18 @@ def register_view(request):
 
 
 def history_record(request):
-    return render(request, 'core/historyrecord.html')
+    user_id = request.session.get('user_id')
+
+    if not user_id:
+        return redirect('/login/')
+
+    meal_items = MealLogItem.objects.filter(
+        meal__user_id=user_id
+    ).order_by('-meal__meal_time')
+
+    return render(request, 'core/historyrecord.html', {
+        'meal_items': meal_items
+    })
 
 
 def logout_view(request):
@@ -97,4 +122,28 @@ def add_meal(request):
     foods = FoodItem.objects.all()
     return render(request, 'core/add_meal.html', {'foods': foods})
 
+def myinfo_view(request):
+        user_id = request.session.get('user_id')
+
+        if not user_id:
+            return redirect('/login/')
+
+        if request.method == "POST":
+            height = request.POST.get("height")
+            weight = request.POST.get("weight")
+            age = request.POST.get("age")
+            activity = request.POST.get("activity")
+
+
+            profile, created = UserProfile.objects.get_or_create(user_id=user_id)
+
+            profile.height_cm = height
+            profile.weight_kg = weight
+            profile.age = age if age else None
+            profile.activity_level = activity if activity else None
+            profile.save()
+
+            return HttpResponse("Profile saved")
+
+        return render(request, 'core/myinfo.html')
 

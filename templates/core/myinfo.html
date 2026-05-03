@@ -1,0 +1,21 @@
+{% extends "core/base.html" %}
+{% block title %}My Info — HealthBite{% endblock %}
+
+{% block content %}
+<h1>My Profile</h1>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <input type="number" step="0.1" name="height" placeholder="Height (cm)" required><br><br>
+
+    <input type="number" step="0.1" name="weight" placeholder="Weight (kg)" required><br><br>
+
+    <input type="number" name="age" placeholder="Age"><br><br>
+
+    <input type="text" name="activity" placeholder="Activity Level"><br><br>
+
+    <button type="submit">Save</button>
+</form>
+
+{% endblock %}

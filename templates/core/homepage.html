@@ -1,8 +1,34 @@
 {% extends "core/base.html" %}
 {% block title %}Home — HealthBite{% endblock %}
+
 {% block content %}
 <h1>Homepage</h1>
 <p>Route: <code>/homepage/</code></p>
 
 <p>Today's Calories: {{ total_calories }}</p>
+
+{% if recommended %}
+<p>Recommended Calories: {{ recommended }}</p>
+
+{% if total_calories > recommended %}
+<p style="color:red;">You are above your target!</p>
+{% else %}
+<p style="color:green;">You are within your target.</p>
+{% endif %}
+{% endif %}
+
+<br>
+
+<a href="{% url 'add_meal' %}">
+    <button>Add Meal</button>
+</a>
+
+<a href="{% url 'myinfo' %}">
+    <button>My Profile</button>
+</a>
+
+<a href="{% url 'historyrecord' %}">
+    <button>History</button>
+</a>
+
 {% endblock %}
