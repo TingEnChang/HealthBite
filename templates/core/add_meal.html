@@ -18,6 +18,15 @@
 
     <br><br>
 
+    <label>Meal Type:</label>
+    <select name="meal_type" required>
+        {% for value, label in meal_types %}
+            <option value="{{ value }}">{{ label }}</option>
+        {% endfor %}
+    </select>
+
+    <br><br>
+
     <label>Quantity:</label>
     <input type="number" step="0.1" name="quantity" required>
 

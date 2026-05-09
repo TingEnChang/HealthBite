@@ -75,13 +75,14 @@ def add_meal(request):
 
     if request.method == "POST":
         food_id = request.POST.get("food")
+        meal_type = request.POST.get("meal_type")
         quantity = float(request.POST.get("quantity"))
 
         food = FoodItem.objects.get(id=food_id)
 
         meal = MealLog.objects.create(
             user_id=user_id,
-            meal_type="LUNCH",
+            meal_type=meal_type,
             meal_time=timezone.now()
         )
 
@@ -95,6 +96,8 @@ def add_meal(request):
         return redirect('/homepage/')
 
     foods = FoodItem.objects.all()
-    return render(request, 'core/add_meal.html', {'foods': foods})
-
+    return render(request, 'core/add_meal.html', {
+        'foods': foods,
+        'meal_types': MealLog.MEAL_TYPE_CHOICES
+    })
 
