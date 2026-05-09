@@ -1,6 +1,43 @@
 {% extends "core/base.html" %}
 {% block title %}History — HealthBite{% endblock %}
 {% block content %}
-<h1>History record</h1>
-<p>Route: <code>/historyrecord/</code></p>
+<h1>Meal History</h1>
+
+<form method="GET">
+    <label for="history-date">Select Date:</label>
+    <input
+        type="date"
+        id="history-date"
+        name="date"
+        value="{{ selected_date|date:'Y-m-d' }}"
+    >
+    <button type="submit">View Meals</button>
+</form>
+
+<br>
+
+<table border="1" cellpadding="8" cellspacing="0">
+    <thead>
+        <tr>
+            <th>Meal Name</th>
+            <th>Meal Type</th>
+            <th>Calories</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for meal in meals %}
+            <tr>
+                <td>{{ meal.food.name }}</td>
+                <td>{{ meal.meal.get_meal_type_display }}</td>
+                <td>{{ meal.calculated_calories }}</td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="3">No meals found for this date.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<p>Total calories consumed: {{ total_calories }}</p>
 {% endblock %}
