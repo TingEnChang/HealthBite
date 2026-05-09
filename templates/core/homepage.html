@@ -1,34 +1,67 @@
-{% extends "core/base.html" %}
-{% block title %}Home — HealthBite{% endblock %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home</title>
+</head>
 
-{% block content %}
-<h1>Homepage</h1>
-<p>Route: <code>/homepage/</code></p>
+<body style="margin:0; font-family:Arial, sans-serif;">
 
-<p>Today's Calories: {{ total_calories }}</p>
+<div style="position:fixed; left:0; top:0; width:220px; height:100vh; background:#1e1e1e; padding-top:20px; color:white;">
 
-{% if recommended %}
-<p>Recommended Calories: {{ recommended }}</p>
+    <h2 style="text-align:center; margin-bottom:30px;">
+        Healthbite
+    </h2>
 
-{% if total_calories > recommended %}
-<p style="color:red;">You are above your target!</p>
-{% else %}
-<p style="color:green;">You are within your target.</p>
-{% endif %}
-{% endif %}
+    <a href="/homepage/"
+       style="display:block; padding:15px 20px; color:white; text-decoration:none;">
+       Home
+    </a>
 
-<br>
+    <a href="/historyrecord/"
+       style="display:block; padding:15px 20px; color:white; text-decoration:none;">
+       History
+    </a>
 
-<a href="{% url 'add_meal' %}">
-    <button>Add Meal</button>
-</a>
+    <a href="/add-meal/"
+       style="display:block; padding:15px 20px; color:white; text-decoration:none;">
+       Add Meal
+    </a>
 
-<a href="{% url 'myinfo' %}">
-    <button>My Profile</button>
-</a>
+    <a href="/myinfo/"
+       style="display:block; padding:15px 20px; color:white; text-decoration:none;">
+       My Info
+    </a>
 
-<a href="{% url 'historyrecord' %}">
-    <button>History</button>
-</a>
+    <a href="/login/"
+       style="display:block; padding:15px 20px; color:#ff4d4d; text-decoration:none; margin-top:40px;">
+       Logout
+    </a>
 
-{% endblock %}
+</div>
+
+<div style="margin-left:240px; padding:30px;">
+
+    <h1>Welcome to Healthbite</h1>
+
+    <p>This is your dashboard.</p>
+
+    <h2>Today's Calories: {{ total_calories }}</h2>
+
+    {% if recommended %}
+        <h3>Recommended Calories: {{ recommended }}</h3>
+
+        {% if total_calories > recommended %}
+            <p style="color:red;">
+                You are above your target!
+            </p>
+        {% else %}
+            <p style="color:green;">
+                You are within your target.
+            </p>
+        {% endif %}
+    {% endif %}
+
+</div>
+
+</body>
+</html>
