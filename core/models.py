@@ -24,8 +24,11 @@ class UserProfile(models.Model):
     ]
 
     user = models.OneToOneField(AppUser, on_delete=models.CASCADE)
+    full_name = models.CharField(max_length=150, blank=True, default="")
     height_cm = models.FloatField()
     weight_kg = models.FloatField()
+    daily_calorie_goal = models.FloatField(default=2500)
+    notes = models.TextField(blank=True, default="")
     age = models.IntegerField(null=True, blank=True)
     activity_level = models.CharField(
         max_length=50,

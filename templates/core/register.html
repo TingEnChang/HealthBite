@@ -1,17 +1,68 @@
-{% extends "core/base.html" %}
-{% block title %}Register — HealthBite{% endblock %}
-
-{% block content %}
-<h1>Register</h1>
-
-<form method="POST">
-    {% csrf_token %}
-
-    <input type="email" name="email" placeholder="Email" required><br><br>
-
-    <input type="password" name="password" placeholder="Password" required><br><br>
-
-    <button type="submit">Register</button>
-</form>
-
-{% endblock %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Register — HealthBite</title>
+  <link rel="stylesheet" href="{% static 'core/css/healthbite.css' %}">
+</head>
+<body class="auth-body">
+  <div class="auth-wrap">
+    <div class="auth-logo">Healthbite logo here</div>
+    <h1 class="auth-title" style="font-size:1.1rem;">Please input your information</h1>
+    {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+    <form class="form-yellow" method="post" action="{% url 'register' %}">
+      {% csrf_token %}
+      <div class="form-grid-2">
+        <div>
+          <div class="form-row">
+            <label for="n">Name</label>
+            <input type="text" name="full_name" id="n">
+          </div>
+          <div class="form-row">
+            <label for="a">Age</label>
+            <input type="number" name="age" id="a" min="0">
+          </div>
+          <div class="form-row">
+            <label for="h">Height (cm)</label>
+            <input type="text" name="height_cm" id="h" required placeholder="e.g. 175">
+          </div>
+          <div class="form-row">
+            <label for="w">Weight (kg)</label>
+            <input type="text" name="weight_kg" id="w" required placeholder="e.g. 70">
+          </div>
+          <div class="form-row">
+            <label for="al">Activity Level</label>
+            <select name="activity_level" id="al">
+              <option value="MILD">Mild</option>
+              <option value="MODERATE" selected>Moderate</option>
+              <option value="SEVERE">Severe</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <div class="form-row">
+            <label for="e">Email</label>
+            <input type="email" name="email" id="e" required>
+          </div>
+        </div>
+      </div>
+      <div class="form-row auth-password-below">
+        <label for="p">Password</label>
+        <input type="password" name="password" id="p" required placeholder="password">
+      </div>
+      <div class="auth-actions">
+        <a class="btn-back" href="{% url 'login' %}">Back</a>
+        <button type="submit" class="btn-submit-reg">Submit</button>
+      </div>
+    </form>
+  </div>
+</body>
+</html>

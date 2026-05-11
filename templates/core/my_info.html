@@ -1,0 +1,53 @@
+{% extends "core/base.html" %}
+{% block title %}My Info — HealthBite{% endblock %}
+{% block content %}
+<h1>Your Info:</h1>
+
+<div class="info-box">
+  <div class="info-grid" style="margin-bottom:0.75rem;">
+    <p><label>Name</label> <strong id="v-name">{{ profile.full_name|default:"—" }}</strong></p>
+    <p><label>Email</label> <strong id="v-email">{{ user.email }}</strong></p>
+    <p><label>Age</label> <strong id="v-age">{{ profile.age|default:"—" }}</strong></p>
+    <p><label>Height (cm)</label> <strong id="v-h">{{ profile.height_cm }}</strong></p>
+    <p><label>Weight (kg)</label> <strong id="v-w">{{ profile.weight_kg }}</strong></p>
+    <p><label>Activity Level (factor)</label> <strong>{{ activity_factor }}</strong></p>
+  </div>
+</div>
+
+<div class="myinfo-actions">
+  <form method="post" action="{% url 'my_info' %}" onsubmit="return document.getElementById('newpw').value.length>0;">
+    {% csrf_token %}
+    <input type="hidden" name="action" value="reset_password">
+    <input type="password" name="new_password" id="newpw" placeholder="New password" style="max-width:320px; width:100%; padding:0.4rem; margin-bottom:0.5rem;">
+    <button type="submit" class="btn-lg btn-green" style="width:100%; max-width:320px;">Reset Password</button>
+  </form>
+
+  <form method="post" action="{% url 'my_info' %}">
+    {% csrf_token %}
+    <input type="hidden" name="action" value="update">
+    <div class="info-box" style="margin-bottom:0.75rem;">
+      <h2 class="h-form" style="font-size:1rem; margin:0 0 0.5rem;">Update fields</h2>
+      <div class="form-row"><label for="n">Name</label><input type="text" name="full_name" id="n" value="{{ profile.full_name }}"></div>
+      <div class="form-row"><label for="a">Age</label><input type="number" name="age" id="a" value="{{ profile.age|default:'' }}"></div>
+      <div class="form-row"><label for="h">Height (cm)</label><input type="text" name="height_cm" id="h" value="{{ profile.height_cm }}"></div>
+      <div class="form-row"><label for="w">Weight (kg)</label><input type="text" name="weight_kg" id="w" value="{{ profile.weight_kg }}"></div>
+      <div class="form-row">
+        <label for="al">Activity Level</label>
+        <select name="activity_level" id="al">
+          <option value="" {% if not profile.activity_level %}selected{% endif %}>—</option>
+          <option value="MILD" {% if profile.activity_level == 'MILD' %}selected{% endif %}>Mild</option>
+          <option value="MODERATE" {% if profile.activity_level == 'MODERATE' %}selected{% endif %}>Moderate</option>
+          <option value="SEVERE" {% if profile.activity_level == 'SEVERE' %}selected{% endif %}>Severe</option>
+        </select>
+      </div>
+    </div>
+    <button type="submit" class="btn-lg btn-yellow" style="width:100%; max-width:320px;">Update Info</button>
+  </form>
+
+  <form method="post" action="{% url 'my_info' %}" onsubmit="return confirm('Delete your account and all data? This cannot be undone.');">
+    {% csrf_token %}
+    <input type="hidden" name="action" value="delete">
+    <button type="submit" class="btn-lg btn-red" style="width:100%; max-width:320px;">Delete Account</button>
+  </form>
+</div>
+{% endblock %}
