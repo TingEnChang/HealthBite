@@ -15,6 +15,9 @@
         <a class="nav-link{% if nav_active == 'home' %} active{% endif %}" href="{% url 'home' %}">
           <span class="star" aria-hidden="true">★</span> Home
         </a>
+        <a class="nav-link{% if nav_active == 'history' %} active{% endif %}" href="{% url 'historyrecord' %}">
+          <span class="star" aria-hidden="true">★</span> History
+        </a>
         <a class="nav-link{% if nav_active == 'progress' %} active{% endif %}" href="{% url 'progress' %}">
           <span class="star" aria-hidden="true">★</span> Progress
         </a>
@@ -23,6 +26,9 @@
         </a>
         <a class="nav-link{% if nav_active == 'my_info' %} active{% endif %}" href="{% url 'my_info' %}">
           <span class="star" aria-hidden="true">★</span> My Info
+        </a>
+        <a class="nav-link{% if nav_active == 'add_meal' %} active{% endif %}" href="{% url 'add_meal' %}">
+          <span class="star" aria-hidden="true">★</span> Add Meal
         </a>
       </nav>
       <div class="sidebar-logout">

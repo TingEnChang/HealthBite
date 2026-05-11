@@ -6,6 +6,7 @@ from django.db import IntegrityError, transaction
 from django.db.models import Sum
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
+from django.utils.dateparse import parse_date
 
 from .models import AppUser, FoodItem, MealLog, MealLogItem, UserProfile
 
@@ -384,7 +385,35 @@ def register_view(request):
 
 
 def history_record(request):
-    return redirect("home")
+    _u, _profile, err = _require_login_user(request)
+    if err:
+        return err
+    user_id = request.session["user_id"]
+    selected_date = parse_date(request.GET.get("date", "")) or timezone.now().date()
+
+    meals = (
+        MealLogItem.objects.filter(
+            meal__user_id=user_id,
+            meal__meal_time__date=selected_date,
+        )
+        .select_related("meal", "food")
+        .order_by("meal__meal_time")
+    )
+
+    total_calories = (
+        meals.aggregate(Sum("calculated_calories"))["calculated_calories__sum"] or 0
+    )
+
+    return render(
+        request,
+        "core/historyrecord.html",
+        {
+            "nav_active": "history",
+            "selected_date": selected_date,
+            "meals": meals,
+            "total_calories": total_calories,
+        },
+    )
 
 
 def logout_view(request):
@@ -428,7 +457,7 @@ def add_meal(request):
         request,
         "core/add_meal.html",
         {
-            "nav_active": "home",
+            "nav_active": "add_meal",
             "profile": profile,
             "foods": foods,
             "meal_type_choices": MealLog.MEAL_TYPE_CHOICES,
