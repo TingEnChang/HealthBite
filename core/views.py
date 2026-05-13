@@ -3,7 +3,7 @@ from datetime import timedelta
 
 from django.contrib import messages
 from django.db import IntegrityError, transaction
-from django.db.models import Sum
+from django.db.models import Q, Sum
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.utils.dateparse import parse_date
@@ -426,8 +426,11 @@ def add_meal(request):
     if err:
         return err
     user_id = request.session["user_id"]
+    foods = (
+        FoodItem.objects.filter(Q(created_by__isnull=True) | Q(created_by_id=user_id))
+        .order_by("name")
+    )
     if request.method == "POST":
-        food_id = request.POST.get("food")
         meal_type = request.POST.get("meal_type") or "LUNCH"
         if meal_type not in dict(MealLog.MEAL_TYPE_CHOICES):
             meal_type = "LUNCH"
@@ -439,7 +442,34 @@ def add_meal(request):
         if quantity <= 0:
             messages.error(request, "Quantity must be positive.")
             return redirect("add_meal")
-        food = get_object_or_404(FoodItem, pk=food_id)
+
+        custom_name = (request.POST.get("custom_name") or "").strip()
+        if custom_name:
+            unit = (request.POST.get("custom_serving_unit") or "serving").strip() or "serving"
+            try:
+                cal_per = float(request.POST.get("custom_calories", ""))
+            except ValueError:
+                messages.error(request, "Calories per serving must be a number.")
+                return redirect("add_meal")
+            if cal_per < 0:
+                messages.error(request, "Calories cannot be negative.")
+                return redirect("add_meal")
+            food = FoodItem.objects.create(
+                created_by_id=user_id,
+                name=custom_name[:100],
+                calories_per_serving=cal_per,
+                serving_unit=unit[:50],
+            )
+        else:
+            food_id = request.POST.get("food")
+            if not food_id:
+                messages.error(
+                    request,
+                    "Choose a food from the list or enter your own food name and calories.",
+                )
+                return redirect("add_meal")
+            food = get_object_or_404(foods, pk=food_id)
+
         meal = MealLog.objects.create(
             user_id=user_id,
             meal_type=meal_type,
@@ -452,7 +482,6 @@ def add_meal(request):
             calculated_calories=food.calories_per_serving * quantity,
         )
         return redirect("home")
-    foods = FoodItem.objects.all().order_by("name")
     return render(
         request,
         "core/add_meal.html",

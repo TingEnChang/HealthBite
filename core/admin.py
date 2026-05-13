@@ -5,7 +5,8 @@ from .models import AppUser, FoodItem, MealLog, MealLogItem, UserProfile
 
 @admin.register(FoodItem)
 class FoodItemAdmin(admin.ModelAdmin):
-    list_display = ("id", "name", "calories_per_serving", "serving_unit")
+    list_display = ("id", "name", "calories_per_serving", "serving_unit", "created_by")
+    list_filter = ("created_by",)
     search_fields = ("name",)
 
 

@@ -42,9 +42,27 @@ class UserProfile(models.Model):
 
 
 class FoodItem(models.Model):
-    name = models.CharField(max_length=100, unique=True)
+    """Catalog foods have created_by=None; user-added foods belong to that user."""
+
+    created_by = models.ForeignKey(
+        AppUser,
+        on_delete=models.CASCADE,
+        related_name="custom_foods",
+        null=True,
+        blank=True,
+    )
+    name = models.CharField(max_length=100)
     calories_per_serving = models.FloatField()
     serving_unit = models.CharField(max_length=50)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["name"],
+                condition=models.Q(created_by__isnull=True),
+                name="fooditem_unique_catalog_name",
+            ),
+        ]
 
     def __str__(self):
         return self.name
